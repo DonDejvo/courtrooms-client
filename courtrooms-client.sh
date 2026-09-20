@@ -2,7 +2,13 @@
 set -euo pipefail
 
 SERVICE_NAME="courtrooms-client"
-ACTION="${1:?Usage: $0 {install|start|stop}}"
+
+if [[ $# -lt 1 ]]; then
+    echo "Usage: $0 install|start|stop" >&2
+    exit 1
+fi
+
+ACTION="$1"
 PROJECT_DIR="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
 
 case "$ACTION" in
@@ -45,7 +51,7 @@ EOF
         systemctl status "$SERVICE_NAME" --no-pager
         ;;
     *)
-        echo "Usage: $0 {install|start|stop}" >&2
+        echo "Usage: $0 install|start|stop" >&2
         exit 1
         ;;
 esac
