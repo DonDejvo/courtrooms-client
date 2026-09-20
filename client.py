@@ -17,6 +17,9 @@ from waveshare_epd import epd5in0
 
 from config import SERVER_HOST, COURTROOM_CODE, POLL_INTERVAL_SECONDS
 
+if not SERVER_HOST.startswith(("http://", "https://")):
+  SERVER_HOST = f"http://{SERVER_HOST}"
+
 API_BASE_URL = f"{SERVER_HOST}/api"
 STATE_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), "last_schedule_url.txt")
 

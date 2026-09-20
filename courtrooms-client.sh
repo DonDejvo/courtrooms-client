@@ -4,7 +4,7 @@ set -euo pipefail
 SERVICE_NAME="courtrooms-client"
 
 if [[ $# -lt 1 ]]; then
-    echo "Usage: $0 install|start|stop" >&2
+    echo "Usage: $0 install|start|stop|status" >&2
     exit 1
 fi
 
@@ -38,9 +38,7 @@ EOF
         echo "Wrote ${UNIT_PATH}"
         systemctl daemon-reload
         systemctl enable "$SERVICE_NAME"
-        echo "Service '${SERVICE_NAME}' enabled (not started)."
-        echo "  start: sudo ./courtrooms-client.sh start"
-        echo "  stop:  sudo ./courtrooms-client.sh stop"
+        echo "Service '${SERVICE_NAME}' enabled."
         ;;
     start)
         systemctl start "$SERVICE_NAME"
@@ -50,8 +48,11 @@ EOF
         systemctl stop "$SERVICE_NAME"
         systemctl status "$SERVICE_NAME" --no-pager
         ;;
+    status)
+        systemctl status "$SERVICE_NAME" --no-pager
+        ;;
     *)
-        echo "Usage: $0 install|start|stop" >&2
+        echo "Usage: $0 install|start|stop|status" >&2
         exit 1
         ;;
 esac
